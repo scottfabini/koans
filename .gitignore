@@ -1,0 +1,18 @@
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+# Intellij Files
+*.iws
+*.ipr
+*.iml
+
+run.sh
+run.bat
+gradlew.bat
+gradlew
+build.gradle
+pom.xml
