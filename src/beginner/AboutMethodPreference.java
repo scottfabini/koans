@@ -27,37 +27,39 @@ public class AboutMethodPreference {
 
     @Koan
     public void methodPreferenceInt() {
-        assertEquals(new A().doStuff(1), __);
+        assertEquals(new A().doStuff(1), "int");
     }
 
     @Koan
     public void methodPreferenceInteger() {
-        assertEquals(new A().doStuff(Integer.valueOf(1)), __);
+        assertEquals(new A().doStuff(Integer.valueOf(1)), "Integer");
     }
 
     @Koan
     public void methodPreferenceLong() {
         long l = 1;
-        assertEquals(new A().doStuff(l), __);
+        assertEquals(new A().doStuff(l), "Object");
     }
 
     @Koan
     public void methodPreferenceBoxedLong() {
         Long l = Long.valueOf(1);
-        assertEquals(new A().doStuff(l), __);
+        assertEquals(new A().doStuff(l), "Object");
     }
 
     @Koan
     public void methodPreferenceDouble() {
         Double l = Double.valueOf(1);
-        assertEquals(new A().doStuff(l), __);
+        assertEquals(new A().doStuff(l), "Object");
     }
 
     @Koan
     public void methodPreferenceMore() {
-        // What happens if you change 'Integer' to 'Double'
+        // What happens if you change 'Integer' to 'Double'?
+        // Does not compile.  int vararg doesn't take a double argument
         // Does this explain 'methodPreferenceDouble'?
+        // Not really.  It's boxed to a Double, not an Integer.
         // Think about why this happens?
-        assertEquals(new A().doStuff(1, Integer.valueOf(2)), __);
+        assertEquals(new A().doStuff(1, Integer.valueOf(2)), "int vararg");
     }
 }
