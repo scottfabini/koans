@@ -12,20 +12,20 @@ public class AboutEquality {
     public void sameObject() {
         Object a = new Object();
         Object b = a;
-        assertEquals(a == b, __);
+        assertEquals(a == b, true);
     }
 
     @Koan
     public void equalObject() {
         Integer a = new Integer(1);
         Integer b = new Integer(1);
-        assertEquals(a.equals(b), __);
-        assertEquals(b.equals(a), __);
+        assertEquals(a.equals(b), true);
+        assertEquals(b.equals(a), true);
     }
 
     @Koan
     public void noObjectShouldBeEqualToNull() {
-        assertEquals(new Object().equals(null), __);
+        assertEquals(new Object().equals(null), false);
     }
 
     static class Car {
@@ -37,12 +37,45 @@ public class AboutEquality {
             horsepower = p;
         }
 
+        /**
+         * IDE-generated equals
+         * @param o The object to compare
+         * @return True if equal
+         */
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            Car car = (Car) o;
+
+            if (horsepower != car.horsepower) return false;
+            return name != null ? name.equals(car.name) : car.name == null;
+
+        }
+
+        /**
+         * IDE-generated hashCode
+         * @return Hash code
+         */
+        @Override
+        public int hashCode() {
+            int result = name != null ? name.hashCode() : 0;
+            result = 31 * result + horsepower;
+            return result;
+        }
+
+        /*
         @Override
         public boolean equals(Object other) {
             // Change this implementation to match the equals contract
             // Car objects with same horsepower and name values should be considered equal
             // http://download.oracle.com/javase/6/docs/api/java/lang/Object.html#equals(java.lang.Object)
-            return false;
+            // Another site explaining this: http://www.artima.com/lejava/articles/equality.html
+            return other != null
+                    && this.getClass().equals(other.getClass())
+                    && this.name.equals(((Car) other).name)
+                    && this.horsepower == ((Car) other).horsepower;
         }
 
         @Override
@@ -50,6 +83,7 @@ public class AboutEquality {
             // @see http://download.oracle.com/javase/6/docs/api/java/lang/Object.html#hashCode()
             return super.hashCode();
         }
+        */
     }
 
     @Koan
@@ -103,7 +137,8 @@ public class AboutEquality {
 
         @Override
         public int hashCode() {
-            return 4000;
+            int result = color != null ? color.hashCode() : 0;
+            return result;
         }
 
         @Override
@@ -119,10 +154,11 @@ public class AboutEquality {
         Chicken chicken1 = new Chicken();
         chicken1.color = "black";
         Chicken chicken2 = new Chicken();
-        assertEquals(chicken1.equals(chicken2), __);
-        assertEquals(chicken1.hashCode() == chicken2.hashCode(), __);
+        assertEquals(chicken1.equals(chicken2), false);
+        assertEquals(chicken1.hashCode() == chicken2.hashCode(), false);
         // Does this still fit the hashCode contract? Why (not)?
-        // Fix the Chicken class to correct this.
+        // No. Non-equivalent objects hash to the same value (4000, originally, above)
+        // Fix the Chicken class to correct this. // Fixed
     }
 
 }
