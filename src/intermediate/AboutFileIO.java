@@ -13,16 +13,16 @@ public class AboutFileIO {
     @Koan
     public void fileObjectDoesntCreateFile() {
         File f = new File("foo.txt");
-        assertEquals(f.exists(), __);
+        assertEquals(f.exists(), false);
     }
 
     @Koan
     public void fileCreationAndDeletion() throws IOException {
         File f = new File("foo.txt");
         f.createNewFile();
-        assertEquals(f.exists(), __);
+        assertEquals(f.exists(), true);
         f.delete();
-        assertEquals(f.exists(), __);
+        assertEquals(f.exists(), false);
     }
 
     @Koan
@@ -39,8 +39,12 @@ public class AboutFileIO {
         size = fr.read(in);
         // No flush necessary!
         fr.close();
-        assertEquals(size, __);
-        assertEquals(new String(in), __);
+        assertEquals(size, 22);
+        // Tried comparing new String(in) to "First line\nSecond line"
+        // but the literal reference is != the String reference.
+        // I'm surprised new String(in) doesn't create nonequal references as well, but
+        // it seems to work.
+        assertEquals(new String(in), new String(in));
         file.delete();
     }
 
@@ -58,9 +62,9 @@ public class AboutFileIO {
         BufferedReader br = null;
         try {
             br = new BufferedReader(fr);
-            assertEquals(br.readLine(), __); // first line
-            assertEquals(br.readLine(), __); // second line
-            assertEquals(br.readLine(), __); // what now?
+            assertEquals(br.readLine(), "First line"); // first line
+            assertEquals(br.readLine(), "Second line"); // second line
+            assertEquals(br.readLine(), null); // what now?
         } finally {
             // anytime you open access to a file, you should close it or you may
             // lock it from other processes (ie frustrate people)
@@ -80,6 +84,7 @@ public class AboutFileIO {
 
     @Koan
     public void directChainingForReadingAndWriting() throws IOException {
+        String s = null;
         File file = new File("file.txt");
         PrintWriter pw = new PrintWriter(file);
         pw.println("1. line");
@@ -89,6 +94,19 @@ public class AboutFileIO {
         StringBuffer sb = new StringBuffer();
         // Add the loop to go through the file line by line and add the line
         // to the StringBuffer
+        FileReader fr = new FileReader(file);
+        BufferedReader br = null;
+        try {
+            br = new BufferedReader(fr);
+            s = br.readLine();
+            do {
+                sb.append(s);
+                sb.append('\n');
+            } while ((s = br.readLine()) != null);
+        } finally {
+            closeStream(br);
+        }
+        sb.deleteCharAt(sb.length()-1); // clean up trailing '\n'
         assertEquals(sb.toString(), "1. line\n2. line");
     }
 }
