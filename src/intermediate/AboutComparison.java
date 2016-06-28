@@ -14,9 +14,11 @@ public class AboutComparison {
     public void compareObjects() {
         String a = "abc";
         String b = "bcd";
-        assertEquals(a.compareTo(b), __);
-        assertEquals(a.compareTo(a), __);
-        assertEquals(b.compareTo(a), __);
+        // difference in unicode representation of the first non-matching character
+        assertEquals(a.compareTo(b), -1);
+        assertEquals(a.compareTo(a), 0);
+        // difference in unicode representation of the first non-matching character
+        assertEquals(b.compareTo(a), 1);
     }
 
     static class Car implements Comparable<Car> {
@@ -36,7 +38,7 @@ public class AboutComparison {
         vwbeetle.horsepower = 50;
         Car porsche = new Car();
         porsche.horsepower = 300;
-        assertEquals(vwbeetle.compareTo(porsche), __);
+        assertEquals(vwbeetle.compareTo(porsche), -250);
     }
 
     static class RaceHorse {
@@ -76,8 +78,12 @@ public class AboutComparison {
         RaceHorse[] horses = {lindy, slowy, lightning};
 
         Arrays.sort(horses, new HorseAgeComparator());
-        assertEquals(horses[0], __);
+        // note: using "Speed: 2 Age: 10" string doesn't work.  Because that string
+        // literal will have a different reference than horses[0].  Need to use
+        // lightning, which has the same reference as horses[0].
+        assertEquals(horses[0], lightning);
         Arrays.sort(horses, new HorseSpeedComparator());
-        assertEquals(horses[0], __);
+        // same as above, need to use the slowy reference, which will be equal to horses[0]
+        assertEquals(horses[0], slowy);
     }
 }
