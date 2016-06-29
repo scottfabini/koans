@@ -9,6 +9,9 @@ public class AboutDefaultMethods {
 
     @Koan
     public void interfaceDefaultMethod() {
+        // So this is an implementation of the interface, which only implements the reverse method.
+        // Static methods can be part of an interface.
+        // Now default methods can be as well.
         StringUtil stringUtil = new StringUtil() {
             @Override
             public String reverse(String s) {
@@ -17,12 +20,12 @@ public class AboutDefaultMethods {
         };
         String capitalizedReversed = stringUtil.capitalize(
                 stringUtil.reverse("gnirut"));
-        assertEquals(capitalizedReversed, __);
+        assertEquals(capitalizedReversed, "TURING");
     }
 
     @Koan
     public void interfaceStaticMethod() {
-        assertEquals(StringUtil.enclose("me"), __);
+        assertEquals(StringUtil.enclose("me"), "[me]");
     }
 
     interface StringUtil {
