@@ -19,7 +19,7 @@ public class AboutRequireNotNull {
         } catch (NullPointerException ex) {
             s = "caught a NullPointerException";
         }
-        assertEquals(s, __);
+        assertEquals(s, "caught a NullPointerException");
     }
 
     @Koan
@@ -28,11 +28,12 @@ public class AboutRequireNotNull {
         // in place of traditional argument validation using exceptions
         String s = "";
         try {
+            // This returns the length of the string, as a string
             s += validateUsingRequireNotNull("valid");
         } catch (NullPointerException ex) {
             s = "caught a NullPointerException";
         }
-        assertEquals(s, __);
+        assertEquals(s, "5");
     }
 
     private int validateUsingRequireNotNull(String str) {
