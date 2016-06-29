@@ -10,6 +10,10 @@ public class AboutMocks {
         public void doBusinessStuff();
     }
 
+    static class MockCollaborator implements Collaborator {
+        public void doBusinessStuff() { System.out.println("MockCollaborator."); }
+    }
+
     static class ExplosiveCollaborator implements Collaborator {
         public void doBusinessStuff() {
             fail("Default collaborator's behavior is complicating testing.");
@@ -40,7 +44,8 @@ public class AboutMocks {
         // HINT: pass a safe Collaborator implementation to constructor
         // new ClassUnderTest(new Collaborator(){... it should not be the
         // objective of this test to test that collaborator, so replace it
-        new ClassUnderTest().doSomething();
+        ClassUnderTest cut = new ClassUnderTest(new MockCollaborator());
+        cut.doSomething();
     }
 
 }
