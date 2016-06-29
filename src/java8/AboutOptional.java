@@ -18,21 +18,23 @@ public class AboutOptional {
         if (value.isPresent()) {
             optionalIsPresent = true;
         }
-        assertEquals(optionalIsPresent, __);
+        assertEquals(optionalIsPresent, false);
     }
 
     @Koan
     public void ifPresentLambda() {
         Optional<String> value = notPresent();
         value.ifPresent(x -> optionalIsPresentField = true);
-        assertEquals(optionalIsPresentField, __);
+        assertEquals(optionalIsPresentField, false);
     }
 
     //use optional on api to signal that value is optional
+    // Optional.empty() is static method that returns an empty Optional instance
     public Optional<String> notPresent() {
         return Optional.empty();
     }
 
+    // Optional.of(arg) returns an optional with the specified present non-null value
     private Optional<String> present() {
         return Optional.of("is present");
     }
